@@ -1,43 +1,22 @@
-# Banking Transaction Reconciliation & Fraud Monitoring System
+# Banking Analytics Dashboard
 
 ## Project Overview
 
-This project demonstrates an enterprise-style Banking ETL and Analytics solution using:
+This project is a Banking Analytics Dashboard developed using Power BI to analyze banking transactions, customer behavior, fraud activities, and branch-level financial performance.
 
-- Oracle Database
-- Informatica Intelligent Cloud Services (IICS)
-- Power BI
-- SQL
-- GitHub
-
-The system processes banking transaction data, performs fraud detection, validates reconciliation issues, handles rejected transactions, generates branch-level analytics, and visualizes insights through interactive Power BI dashboards.
+The dashboard provides interactive business intelligence insights for banking operations through KPI monitoring, fraud analytics, transaction analysis, and branch performance visualization.
 
 ---
 
-# Architecture
+# Dashboard Architecture
 
 ```text
-Oracle Database
+Banking Dataset
         ↓
-Informatica IICS ETL
+Power BI Desktop
         ↓
-Oracle Reporting Tables
-        ↓
-Power BI Dashboard
+Interactive Banking Analytics Dashboard
 ```
-
----
-
-# Business Objective
-
-The objective of this project is to simulate a real-world banking data pipeline capable of:
-
-- Processing banking transactions
-- Detecting suspicious/fraudulent activities
-- Validating transaction reconciliation
-- Identifying invalid/rejected transactions
-- Generating branch-level KPIs
-- Visualizing banking insights using Power BI
 
 ---
 
@@ -45,311 +24,327 @@ The objective of this project is to simulate a real-world banking data pipeline 
 
 | Technology | Purpose |
 |---|---|
-| Oracle Database | Source & Reporting Database |
-| Informatica IICS | ETL & Workflow Orchestration |
-| SQL | Data Processing |
-| Power BI | Dashboard & Analytics |
-| GitHub | Version Control |
+| Power BI | Dashboard Development |
+| DAX | KPI Calculations |
+| SQL Dataset | Banking Transaction Data |
+| Data Visualization | Business Intelligence |
 
 ---
 
-# Database Schema
+# Dashboard Features
 
-## Source Tables
+## Executive KPI Monitoring
 
-### CUSTOMER
+The dashboard includes key banking KPIs such as:
 
-Stores customer details.
-
-| Column | Description |
-|---|---|
-| CUSTOMER_ID | Unique customer ID |
-| CUSTOMER_NAME | Customer name |
-| ACCOUNT_TYPE | Type of account |
-| BRANCH_NAME | Customer branch |
-| CUSTOMER_STATUS | Active/Inactive |
+- Total Customers
+- Total Fraud Accounts
+- Total Branches
+- Transaction Monitoring
 
 ---
 
-### ACCOUNT
+# Dashboard Visualizations
 
-Stores account information.
+## 1. Total Customers KPI
 
-| Column | Description |
-|---|---|
-| ACCOUNT_ID | Unique account ID |
-| CUSTOMER_ID | Customer reference |
-| ACCOUNT_NUMBER | Account number |
-| ACCOUNT_BALANCE | Current balance |
-| ACCOUNT_STATUS | Active/Closed |
+Displays the total number of customers in the banking system.
 
----
+### Metric
 
-### BANK_TRANSACTION
-
-Stores banking transaction details.
-
-| Column | Description |
-|---|---|
-| TRANSACTION_ID | Transaction ID |
-| ACCOUNT_ID | Account reference |
-| TRANSACTION_AMOUNT | Transaction amount |
-| TRANSACTION_DATE | Transaction date |
-| TRANSACTION_TYPE | Credit/Debit |
-
----
-
-## Target Tables
-
-### TGT_FRAUD_ALERT
-
-Stores detected fraud records.
-
-### TGT_RECONCILIATION_ISSUE
-
-Stores reconciliation mismatches.
-
-### TGT_REJECT_TRANSACTIONS
-
-Stores invalid/rejected transactions.
-
-### TGT_BRANCH_TRANSACTION_SUMMARY
-
-Stores branch-level aggregated metrics.
-
----
-
-# ETL Workflow
-
-## 1. Transaction Load Mapping
-
-### Features
-
-- Loads valid transactions
-- Rejects invalid records
-- Filters closed accounts
-- Handles negative transactions
-
-### Transformations Used
-
-- Source
-- Expression
-- Filter
-- Router
-- Target
-
----
-
-## 2. Fraud Detection Mapping
-
-### Features
-
-- Detects suspicious transactions
-- Identifies high-value fraud patterns
-- Generates fraud scores
-
-### Fraud Conditions
-
-- High transaction amount
-- Negative transactions
-- Suspicious transaction patterns
-
-### Transformations Used
-
-- Source
-- Expression
-- Filter
-- Target
-
----
-
-## 3. Reconciliation Mapping
-
-### Features
-
-- Compares transaction records
-- Detects mismatches
-- Tracks reconciliation failures
-
-### Transformations Used
-
-- Source
-- Joiner
-- Expression
-- Filter
-- Target
-
----
-
-## 4. Branch Performance Mapping
-
-### Features
-
-- Branch-wise aggregation
-- Total transactions
-- Total transaction amount
-- Average transaction amount
-- Maximum transaction amount
-
-### Transformations Used
-
-- Source
-- Joiner
-- Aggregator
-- Target
-
----
-
-# Informatica Taskflow
-
-## Main Taskflow
-
-```text
-Start
-   ↓
-Load_Transactions
-   ↓
- ┌───────────────┐
- ↓               ↓
-Fraud        Reconciliation
-Detection      Process
- └───────┬───────┘
-         ↓
-Branch_Performance
-         ↓
-End
+```DAX
+Total Customers =
+COUNT(CUSTOMER[CUSTOMER_ID])
 ```
 
 ---
 
-# Power BI Dashboard
+## 2. Total Fraud Accounts KPI
 
-## Dashboard Pages
+Displays the total number of suspicious or fraud-related accounts.
 
-### 1. Executive Summary
+### Metric
 
-KPIs:
-- Total Transactions
-- Total Fraud Alerts
-- Total Reject Transactions
-- Total Branches
-
----
-
-### 2. Fraud Monitoring Dashboard
-
-Visuals:
-- Fraud Distribution Pie Chart
-- Fraud Score Analysis
-- Fraud Reason Analytics
+```DAX
+Total Fraud Accounts =
+COUNT(TGT_FRAUD_ALERT[ALERT_ID])
+```
 
 ---
 
-### 3. Branch Performance Dashboard
+## 3. Total Branches KPI
 
-Visuals:
-- Branch Transaction Analysis
-- Total Amount by Branch
-- Branch KPI Tables
+Displays the number of banking branches included in the analysis.
 
----
+### Metric
 
-### 4. Transaction Analytics Dashboard
-
-Visuals:
-- Transaction Type Distribution
-- Transaction Trend Analysis
-- Transaction Volume Monitoring
+```DAX
+Total Branches =
+DISTINCTCOUNT(CUSTOMER[BRANCH_NAME])
+```
 
 ---
 
-### 5. Customer Analytics Dashboard
+# Dashboard Analytics
 
-Visuals:
-- Account Type Analysis
-- Customer Status Analysis
-- Branch-wise Customer Distribution
+## Transaction Type Distribution
+
+### Visualization
+
+- Donut Chart
+
+### Purpose
+
+Analyzes transaction distribution between:
+
+- Credit Transactions
+- Debit Transactions
+
+### Insight
+
+Provides understanding of transaction behavior patterns across the banking system.
 
 ---
 
-# Project Features
+## Transaction Trend Analysis
 
-- Enterprise ETL Workflow
-- Fraud Monitoring System
-- Banking Reconciliation Engine
-- Reject Transaction Handling
-- Branch Performance Reporting
-- Parallel Workflow Execution
-- Interactive Power BI Dashboard
-- Oracle Integration
-- Informatica Taskflow Orchestration
+### Visualization
+
+- Line Chart
+
+### Purpose
+
+Tracks transaction amounts over transaction dates.
+
+### Insight
+
+Identifies transaction spikes, seasonal trends, and transaction flow patterns.
+
+---
+
+## Customer Account Type Analysis
+
+### Visualization
+
+- Horizontal Bar Chart
+
+### Account Types Included
+
+- Current
+- Savings
+
+### Purpose
+
+Analyzes customer distribution across account types.
+
+---
+
+## Fraud Reason Analysis
+
+### Visualization
+
+- Pie Chart
+
+### Fraud Categories
+
+- Suspicious Transactions
+- High Value Transactions
+- Negative Transactions
+
+### Purpose
+
+Analyzes fraud distribution across different fraud categories.
+
+---
+
+## Fraud Account Monitoring
+
+### Visualization
+
+- Horizontal Bar Chart
+
+### Purpose
+
+Displays fraud score analysis for suspicious banking accounts.
+
+### Insight
+
+Identifies high-risk fraud patterns and suspicious account activity.
+
+---
+
+## Branch Transaction Analysis
+
+### Visualization
+
+- Pie Chart
+
+### Branches Included
+
+- Bangalore
+- Chennai
+- Delhi
+- Hyderabad
+- Mumbai
+
+### Purpose
+
+Analyzes branch-wise transaction amount contribution.
+
+### Insight
+
+Identifies high-performing banking branches.
+
+---
+
+# Interactive Filters
+
+The dashboard contains dynamic filters for:
+
+| Filter |
+|---|
+| Branch Name |
+| Transaction Type |
+
+These filters allow interactive exploration of dashboard insights.
+
+---
+
+# Dataset Information
+
+The dataset contains banking-related records including:
+
+| Column | Description |
+|---|---|
+| CUSTOMER_ID | Customer identifier |
+| ACCOUNT_TYPE | Savings/Current account |
+| BRANCH_NAME | Branch location |
+| TRANSACTION_AMOUNT | Transaction value |
+| TRANSACTION_DATE | Transaction timestamp |
+| TRANSACTION_TYPE | Credit/Debit |
+| FRAUD_REASON | Fraud category |
+| FRAUD_SCORE | Fraud severity score |
+
+---
+
+# Dashboard Layout
+
+```text
+---------------------------------------------------------
+| KPI Cards                                              |
+---------------------------------------------------------
+| Filters | Transaction Trends | Customer Analytics     |
+---------------------------------------------------------
+| Fraud Analysis | Fraud Accounts | Branch Analytics    |
+---------------------------------------------------------
+```
+
+---
+
+# Business Insights Generated
+
+- Transaction behavior monitoring
+- Fraud activity analysis
+- Branch performance analysis
+- Customer account segmentation
+- Financial trend monitoring
+- Risk and fraud identification
+- Branch contribution analysis
+
+---
+
+# Power BI Features Used
+
+- KPI Cards
+- Donut Charts
+- Pie Charts
+- Line Charts
+- Bar Charts
+- Interactive Filters
+- DAX Measures
+- Dashboard Themes
+- Business Intelligence Visuals
+
+---
+
+# DAX Measures Used
+
+## Total Customers
+
+```DAX
+Total Customers =
+COUNT(CUSTOMER[CUSTOMER_ID])
+```
+
+---
+
+## Total Fraud Accounts
+
+```DAX
+Total Fraud Accounts =
+COUNT(TGT_FRAUD_ALERT[ALERT_ID])
+```
+
+---
+
+## Total Branches
+
+```DAX
+Total Branches =
+DISTINCTCOUNT(CUSTOMER[BRANCH_NAME])
+```
+
+---
+
+## Total Transaction Amount
+
+```DAX
+Total Transaction Amount =
+SUM(BANK_TRANSACTION[TRANSACTION_AMOUNT])
+```
 
 ---
 
 # Folder Structure
 
 ```text
-BANKING-ETL-IICS-PROJECT/
+Banking_Analytics_Dashboard/
 │
-├── SQL/
-│   ├── create_tables.sql
-│   ├── insert_data.sql
-│   ├── validation_queries.sql
-│
-├── Informatica/
-│   ├── Mapping_Screenshots/
-│   ├── Taskflow_Screenshots/
+├── Dataset/
+│   └── banking_dataset.csv
 │
 ├── PowerBI/
-│   ├── Banking_ETL_Dashboard.pbix
-│   ├── Dashboard_Screenshots/
+│   └── Banking_Analytics_Dashboard.pbix
+│
+├── Screenshots/
+│   └── Dashboard.png
 │
 ├── Documentation/
-│   ├── Architecture.png
-│   ├── Workflow_Explanation.pdf
+│   └── Project_Architecture.png
 │
-├── README.md
-│
-└── Screenshots/
+└── README.md
 ```
 
 ---
 
-# Sample Validation Queries
+# Dashboard Preview
 
-## Fraud Alerts
+## Banking Analytics Dashboard
 
-```sql
-SELECT * FROM TGT_FRAUD_ALERT;
-```
 
----
 
-## Reject Transactions
-
-```sql
-SELECT * FROM TGT_REJECT_TRANSACTIONS;
-```
-
----
-
-## Branch Performance
-
-```sql
-SELECT * FROM TGT_BRANCH_TRANSACTION_SUMMARY;
-```
 
 ---
 
 # Future Enhancements
 
-- Snowflake Data Warehouse Integration
-- Real-Time Streaming ETL
-- Predictive Fraud Detection using ML
-- Automated Email Notifications
-- Role-Based Dashboard Security
-- Cloud Deployment
-- REST API Integration
+- Real-time banking analytics
+- Machine learning fraud detection
+- Snowflake cloud integration
+- Predictive banking analytics
+- Automated fraud alerts
+- Cloud dashboard deployment
+- Advanced customer segmentation
 
 ---
 
@@ -357,31 +352,30 @@ SELECT * FROM TGT_BRANCH_TRANSACTION_SUMMARY;
 
 This project demonstrates practical experience in:
 
-- ETL Development
-- Data Warehousing
-- Workflow Orchestration
-- Banking Analytics
-- Fraud Detection Systems
-- Power BI Dashboard Design
-- Oracle SQL Development
-- Enterprise Data Integration
+- Power BI dashboard development
+- Banking analytics
+- Fraud monitoring systems
+- DAX calculations
+- KPI reporting
+- Interactive business intelligence dashboards
+- Financial data visualization
 
 ---
 
 # Conclusion
 
-This project successfully simulates an enterprise banking analytics platform capable of processing transactions, detecting fraud, validating reconciliation issues, generating business KPIs, and visualizing insights using Power BI.
+This project successfully demonstrates a professional Banking Analytics Dashboard capable of monitoring banking transactions, identifying fraud activities, analyzing customer behavior, and generating branch-level business insights using Power BI.
 
-The implementation demonstrates end-to-end ETL architecture using Oracle and Informatica IICS with interactive analytics dashboards.
+The dashboard provides an interactive and enterprise-style analytics solution for banking operations monitoring.
 
 ---
 
 # Author
 
-Yogi
+YOGESH N
 
 ---
 
 # License
 
-This project is developed for educational and portfolio purposes.
+This project is created for educational, learning, and portfolio purposes.
