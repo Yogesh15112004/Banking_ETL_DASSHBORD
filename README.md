@@ -244,8 +244,8 @@ The dataset contains banking-related records including:
 # Dashboard Preview
 
 ## Banking Analytics Dashboard
+<img width="1112" height="565" alt="Screenshot 2026-05-16 094818" src="https://github.com/user-attachments/assets/33a58150-5c8d-4218-a412-99270d2986e8" />
 
-![Banking Analytics Dashboard](Screenshots/Dashboard.png)
 
 ---
 
